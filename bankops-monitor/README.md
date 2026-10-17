@@ -1,56 +1,46 @@
 # BankOps Monitor
 
-A local training lab for application support: a fictional banking transactions API, PostgreSQL, health checks and Prometheus-compatible metrics.
+**A Banking Application Monitoring & Incident Response Lab**
 
-## Start
+BankOps Monitor is a personal hands-on project designed to simulate application-support activities in a banking environment.
 
-Install Docker Desktop with Docker Compose. Open a terminal in this folder:
+The project demonstrates the deployment, monitoring, troubleshooting, and recovery of a fictional banking transaction API.
 
-```bash
-docker compose up --build -d
-docker compose ps
-```
+## Technologies
 
-Open http://localhost:8000/docs and test GET /health, POST /transactions, and GET /transactions.
+- Python and FastAPI — Banking REST API
+- PostgreSQL — Transaction database
+- Docker Compose — Container orchestration
+- Prometheus — Application metrics collection
+- Grafana — Monitoring dashboards
+- Python scripting — Automated health checks
+- Bash scripting — Service diagnostics and log inspection
 
-Sample transaction:
+## Key Features
 
-```json
-{"account_id":"DEMO-001","amount":150.00,"transaction_type":"deposit"}
-```
+- REST API for fictional banking transactions
+- Database connectivity health checks
+- API availability and performance monitoring
+- Grafana dashboard for request rates, server errors, and response times
+- Automated health checks with timestamped logs
+- Bash-based service diagnostics
+- Simulated database outage and recovery
+- Incident documentation
 
-Metrics: http://localhost:8000/metrics
+## Incident Response Exercise
 
-## Incident lab: database outage
+The project includes a simulated PostgreSQL outage.
 
-```bash
-docker compose stop db
-```
+During testing, the Python monitor detected HTTP 503 responses and subsequently verified recovery with HTTP 200 responses.
 
-Open http://localhost:8000/health. Expect HTTP 503. Investigate:
+The investigation and recovery process is documented in [INC-1](incidents/incident_report1.md) and [INC-2](incidents/incident_report2.md).
 
-```bash
-docker compose ps
-docker compose logs --tail=30 api
-docker compose logs --tail=30 db
-```
+## Monitoring Dashboard
 
-Recover:
+![BankOps Grafana Dashboard](results_screenshots/Grafana.png)
 
-```bash
-docker compose start db
-```
+## Purpose
 
-Retry /health (recovery may take a few seconds).
+This project was created to develop practical experience in IT application support, performance monitoring, troubleshooting, automation, and incident management.
 
-## Stop
-
-```bash
-docker compose down
-```
-
-Do not use `docker compose down -v` unless you want to remove the database data volume.
-
-## Safety and scope
-
-All accounts and transactions are fictional. The API has no authentication and is for local use only, not for deployment or actual banking activity. The credentials are development-only.
+All banking accounts and transactions are fictional and used exclusively for learning.
